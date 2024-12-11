@@ -1,8 +1,8 @@
 from django.urls import path
-from .views import get_all_data, generate_robot_summary_excel
+from . import views
 
 
 urlpatterns = [
-    path('', get_all_data, name='get_all_data'),
-    path('exel/', generate_robot_summary_excel, name='get_all_data'),
+    path('', views.get_all_data, name='get_all_data'),
+    path('exel/', views.generate_robot_summary_excel, name='get_all_data'),
 ]

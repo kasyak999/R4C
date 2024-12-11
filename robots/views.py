@@ -1,14 +1,12 @@
-from django.shortcuts import render
-from django.http import JsonResponse
-from .models import Robot
-from django.views.decorators.csrf import csrf_exempt
-import json
-from .forms import RobotForm
-from django.utils import timezone
 from datetime import timedelta
+import json
 import openpyxl
 from openpyxl.styles import Font
-from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.utils import timezone
+from django.http import HttpResponse, JsonResponse
+from .models import Robot
+from .forms import RobotForm
 
 
 @csrf_exempt
