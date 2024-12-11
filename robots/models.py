@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 
 class Robot(models.Model):
@@ -18,6 +19,25 @@ class Robot(models.Model):
             )
         ]
         ordering = ('serial',)
+        default_related_name = 'robots'
 
     def __str__(self):
         return f'{self.serial}'
+
+
+class ProductionLog(models.Model):
+    robot = models.ForeignKey(
+        Robot, on_delete=models.CASCADE, verbose_name='Робот')
+    production_date = models.DateField(
+        default=timezone.now, verbose_name='Дата')
+    quantity = models.PositiveIntegerField(verbose_name='Количество')
+
+    class Meta:
+        """Перевод модели"""
+        verbose_name = 'производство'
+        verbose_name_plural = 'Журнал производства'
+        ordering = ('robot',)
+        default_related_name = 'productionlog'
+
+    def __str__(self):
+        return f'{self.robot}'
