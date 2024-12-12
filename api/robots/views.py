@@ -5,8 +5,9 @@ from openpyxl.styles import Font
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 from django.http import HttpResponse, JsonResponse
-from .models import Robot
-from .forms import RobotForm
+from robots.models import Robot
+from api.forms import RobotForm, ProductionForm
+from .ultis import notify_customers
 
 
 @csrf_exempt
@@ -25,6 +26,23 @@ def get_all_data(request):
             robot.save()
             return JsonResponse(
                 {'message': 'Робот успешно добавлен'}, status=201)
+        else:
+            return JsonResponse({'errors': form.errors}, status=400)
+    else:
+        return JsonResponse({'error': 'Не поддерживается'}, status=404)
+
+
+@csrf_exempt
+def add_production(request):
+    """Добавить количество произведенных роботов"""
+    if request.method == 'POST':
+        form = ProductionForm(json.loads(request.body))
+        if form.is_valid():
+            robot = form.save(commit=False)
+            robot.save()
+            notify_customers(robot)
+            return JsonResponse(
+                {'message': 'Произведенные добавлены в базу'}, status=201)
         else:
             return JsonResponse({'errors': form.errors}, status=400)
     else:
