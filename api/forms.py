@@ -1,6 +1,6 @@
 from django import forms
 from robots.models import Robot, ProductionLog
-from orders.models import Order
+from orders.models import Order, Waitlist
 
 
 class RobotForm(forms.ModelForm):
@@ -21,4 +21,11 @@ class OrderForm(forms.ModelForm):
 
     class Meta:
         model = Order
+        fields = ['customer', 'robot_serial']
+
+
+class WaitlistForm(forms.ModelForm):
+
+    class Meta:
+        model = Waitlist
         fields = ['customer', 'robot_serial']

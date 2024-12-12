@@ -8,3 +8,11 @@ class Order(models.Model):
 
     def __str__(self):
         return f'{self.customer} - {self.robot_serial}'
+
+
+class Waitlist(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    robot_serial = models.CharField(max_length=5, blank=False, null=False)
+
+    def __str__(self):
+        return f'{self.customer} - {self.robot_serial}'

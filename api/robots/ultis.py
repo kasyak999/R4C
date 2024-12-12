@@ -1,9 +1,9 @@
 from django.core.mail import send_mail
-from orders.models import Order
+from orders.models import Waitlist
 
 
 def notify_customers(value):
-    orders = Order.objects.filter(robot_serial=value)
+    orders = Waitlist.objects.filter(robot_serial=value)
     recipient_list = [order.customer.email for order in orders]
     send_mail(
         subject='Робот есть в наличии',
@@ -18,3 +18,4 @@ def notify_customers(value):
         recipient_list=recipient_list,
         fail_silently=True,
     )
+    orders.delete()
