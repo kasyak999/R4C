@@ -1,12 +1,12 @@
 from datetime import timedelta
-import json
 import openpyxl
 from openpyxl.styles import Font
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 from django.http import HttpResponse, JsonResponse
-from .models import Robot
-from .forms import RobotForm
+from robots.models import Robot
+from api.forms import RobotForm, ProductionForm
+from .ultis import metod_post
 
 
 @csrf_exempt
@@ -17,16 +17,18 @@ def get_all_data(request):
             'model', 'version', 'created'))
         return JsonResponse(result, safe=False)
     elif request.method == 'POST':
-        form = RobotForm(json.loads(request.body))
-        if form.is_valid():
-            robot = form.save(commit=False)
-            robot.created = timezone.now().date()
-            robot.serial = f'{robot.model}-{robot.version}'
-            robot.save()
-            return JsonResponse(
-                {'message': 'Робот успешно добавлен'}, status=201)
-        else:
-            return JsonResponse({'errors': form.errors}, status=400)
+        return metod_post(
+            request, RobotForm, 'Робот успешно добавлен')
+    else:
+        return JsonResponse({'error': 'Не поддерживается'}, status=404)
+
+
+@csrf_exempt
+def add_production(request):
+    """Добавить количество произведенных роботов"""
+    if request.method == 'POST':
+        return metod_post(
+            request, ProductionForm, 'Произведенные добавлены в базу')
     else:
         return JsonResponse({'error': 'Не поддерживается'}, status=404)
 

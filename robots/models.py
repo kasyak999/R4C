@@ -18,7 +18,7 @@ class Robot(models.Model):
                 name='unique_model_version'
             )
         ]
-        ordering = ('serial',)
+        ordering = ('id',)
         default_related_name = 'robots'
 
     def __str__(self):
@@ -33,10 +33,9 @@ class ProductionLog(models.Model):
     quantity = models.PositiveIntegerField(verbose_name='Количество')
 
     class Meta:
-        """Перевод модели"""
         verbose_name = 'производство'
         verbose_name_plural = 'Журнал производства'
-        ordering = ('robot',)
+        ordering = ('id',)
         default_related_name = 'productionlog'
 
     def __str__(self):
