@@ -12,7 +12,7 @@ class PublishedModel(models.Model):
 
     class Meta:
         abstract = True
-        ordering = ('id',)
+        ordering = ('-id',)
 
     def __str__(self):
         return f'{self.customer} - {self.robot_serial}'
