@@ -34,4 +34,4 @@ ___
 
 
 ## Ограничения в проекте
-- Не использовать библиотеку Django REST Framework
+- Не использовать Django REST Framework
